@@ -6,7 +6,7 @@ use rppal::{
     spi::Spi,
 };
 
-pub struct Ili9341Lcd {
+pub struct St7789Lcd {
     dc_pin: OutputPin,
     rst_pin: OutputPin,
     bl_pin: OutputPin,
@@ -16,7 +16,7 @@ pub struct Ili9341Lcd {
     height: usize,
 }
 
-impl Ili9341Lcd {
+impl St7789Lcd {
     pub fn new(
         dc: u8,
         rst: u8,
@@ -24,7 +24,7 @@ impl Ili9341Lcd {
         spi: Spi,
         width: usize,
         height: usize,
-    ) -> Result<Ili9341Lcd, Box<dyn Error>> {
+    ) -> Result<Self, Box<dyn Error>> {
         let gpio = Gpio::new()?;
 
         Ok(Self {
