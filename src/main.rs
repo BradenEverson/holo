@@ -8,6 +8,6 @@ fn main() {
     let mut lcd = Ili9341Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
     lcd.init();
 
-    lcd.draw_image("img/test.png").expect("Failed to write image to lcd");   
+    lcd.draw_image("img/frank.png").expect("Failed to write image to lcd");   
 }
 
