@@ -5,10 +5,10 @@ use std::time::Duration;
 
 fn main() {
     let mut spi = Spi::new(
-        Bus::Spi0,        // Use SPI bus 0
-        SlaveSelect::Ss0, // Use Chip Select 0 (CE0)
-        15_000_000,       // SPI clock speed (15 MHz for stability)
-        Mode::Mode3,      // SPI mode 3 (CPOL=1, CPHA=1)
+        Bus::Spi0,
+        SlaveSelect::Ss0,
+        15_000_000,
+        Mode::Mode3,
     )
     .expect("Failed to initialize SPI");
 
@@ -52,11 +52,11 @@ fn init_display(spi: &mut Spi, dc: &mut OutputPin, rst: &mut OutputPin, bl: &mut
 fn draw_image(spi: &mut Spi, dc: &mut OutputPin) {
     set_window(spi, dc, 0, 0, 239, 239);
 
-    send_command(spi, dc, 0x2C); // Memory Write
+    send_command(spi, dc, 0x2C);
 
     let width = 240;
     let height = 240;
-    let mut image_data = vec![0u8; width * height * 2]; // Each pixel takes 2 bytes
+    let mut image_data = vec![0u8; width * height * 2];
 
     for y in 0..height {
         for x in 0..width {
@@ -77,17 +77,16 @@ fn draw_image(spi: &mut Spi, dc: &mut OutputPin) {
 }
 
 fn send_command(spi: &mut Spi, dc: &mut OutputPin, command: u8) {
-    dc.set_low(); // Command mode
+    dc.set_low();
     spi.write(&[command]).expect("Failed to send command");
 }
 
 fn send_data(spi: &mut Spi, dc: &mut OutputPin, data: &[u8]) {
-    dc.set_high(); // Data mode
+    dc.set_high();
     spi.write(data).expect("Failed to send data");
 }
 
 fn set_window(spi: &mut Spi, dc: &mut OutputPin, x0: u16, y0: u16, x1: u16, y1: u16) {
-    // Column Address Set
     send_command(spi, dc, 0x2A);
     send_data(
         spi,
@@ -100,7 +99,6 @@ fn set_window(spi: &mut Spi, dc: &mut OutputPin, x0: u16, y0: u16, x1: u16, y1: 
         ],
     );
 
-    // Row Address Set
     send_command(spi, dc, 0x2B);
     send_data(
         spi,
