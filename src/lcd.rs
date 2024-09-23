@@ -83,113 +83,80 @@ impl Ili9341Lcd {
         self.rst_pin.set_high();
         sleep(Duration::from_millis(100));
 
-        self.lcd_command(0xEF);
-        self.lcd_data(0x03);
-        self.lcd_data(0x80);
-        self.lcd_data(0x02);
+        self.lcd_command(0x36); // Memory Data Access Control
+        self.lcd_data(0x00);    // Set rotation, RGB format
 
-        self.lcd_command(0xCF);
-        self.lcd_data(0x00);
-        self.lcd_data(0xC1);
-        self.lcd_data(0x30);
+        self.lcd_command(0x3A); // Interface Pixel Format
+        self.lcd_data(0x55);    // 16-bit color format
 
-        self.lcd_command(0xED);
-        self.lcd_data(0x64);
-        self.lcd_data(0x03);
-        self.lcd_data(0x12);
-        self.lcd_data(0x81);
+        self.lcd_command(0xB2); // Porch Setting
+        self.lcd_data(0x0C); 
+        self.lcd_data(0x0C); 
+        self.lcd_data(0x00); 
+        self.lcd_data(0x33); 
+        self.lcd_data(0x33);
 
-        self.lcd_command(0xE8);
-        self.lcd_data(0x85);
-        self.lcd_data(0x00);
-        self.lcd_data(0x78);
+        self.lcd_command(0xB7); // Gate Control
+        self.lcd_data(0x35);    // Default value
 
-        self.lcd_command(0xCB);
-        self.lcd_data(0x39);
-        self.lcd_data(0x2C);
-        self.lcd_data(0x00);
-        self.lcd_data(0x34);
-        self.lcd_data(0x02);
+        self.lcd_command(0xBB); // VCOM Setting
+        self.lcd_data(0x19);    // Default value
 
-        self.lcd_command(0xF7);
-        self.lcd_data(0x20);
+        self.lcd_command(0xC0); // LCM Control
+        self.lcd_data(0x2C);    // Default value
 
-        self.lcd_command(0xEA);
-        self.lcd_data(0x00);
-        self.lcd_data(0x00);
+        self.lcd_command(0xC2); // VDV and VRH Command Enable
+        self.lcd_data(0x01);    // Default value
 
-        self.lcd_command(0xC0); // Power control 1
+        self.lcd_command(0xC3); // VRH Set
+        self.lcd_data(0x12);    // Default value
+
+        self.lcd_command(0xC4); // VDV Set
+        self.lcd_data(0x20);    // Default value
+
+        self.lcd_command(0xC6); // Frame Rate Control in Normal Mode
+        self.lcd_data(0x0F);    // Default value
+
+        self.lcd_command(0xD0); // Power Control
+        self.lcd_data(0xA4);    // Default value
+        self.lcd_data(0xA1);    // Default value
+
+        self.lcd_command(0xE0); // Positive Voltage Gamma Control
+        self.lcd_data(0xD0); 
+        self.lcd_data(0x04); 
+        self.lcd_data(0x0D); 
+        self.lcd_data(0x11); 
+        self.lcd_data(0x13); 
+        self.lcd_data(0x2B); 
+        self.lcd_data(0x3F); 
+        self.lcd_data(0x54); 
+        self.lcd_data(0x4C); 
+        self.lcd_data(0x18); 
+        self.lcd_data(0x0D); 
+        self.lcd_data(0x0B); 
+        self.lcd_data(0x1F); 
         self.lcd_data(0x23);
 
-        self.lcd_command(0xC1); // Power control 2
-        self.lcd_data(0x10);
+        self.lcd_command(0xE1); // Negative Voltage Gamma Control
+        self.lcd_data(0xD0); 
+        self.lcd_data(0x04); 
+        self.lcd_data(0x0C); 
+        self.lcd_data(0x11); 
+        self.lcd_data(0x13); 
+        self.lcd_data(0x2C); 
+        self.lcd_data(0x3F); 
+        self.lcd_data(0x44); 
+        self.lcd_data(0x51); 
+        self.lcd_data(0x2F); 
+        self.lcd_data(0x1F); 
+        self.lcd_data(0x1F); 
+        self.lcd_data(0x20); 
+        self.lcd_data(0x23);
 
-        self.lcd_command(0xC5); // VCOM control 1
-        self.lcd_data(0x3e);
-        self.lcd_data(0x28);
-
-        self.lcd_command(0xC7); // VCOM control 2
-        self.lcd_data(0x86);
-
-        self.lcd_command(0x36); // Memory Access Control
-        self.lcd_data(0x48);
-
-        self.lcd_command(0x3A); // Pixel Format Set
-        self.lcd_data(0x55); // 16-bit/pixel
-
-        self.lcd_command(0xB1); // Frame Rate Control
-        self.lcd_data(0x00);
-        self.lcd_data(0x18);
-
-        self.lcd_command(0xB6); // Display Function Control
-        self.lcd_data(0x08);
-        self.lcd_data(0x82);
-        self.lcd_data(0x27);
-
-        self.lcd_command(0xF2); // 3Gamma Function Disable
-        self.lcd_data(0x00);
-
-        self.lcd_command(0x26); // Gamma curve selected
-        self.lcd_data(0x01);
-
-        self.lcd_command(0xE0); // Set Gamma
-        self.lcd_data(0x0F);
-        self.lcd_data(0x31);
-        self.lcd_data(0x2B);
-        self.lcd_data(0x0C);
-        self.lcd_data(0x0E);
-        self.lcd_data(0x08);
-        self.lcd_data(0x4E);
-        self.lcd_data(0xF1);
-        self.lcd_data(0x37);
-        self.lcd_data(0x07);
-        self.lcd_data(0x10);
-        self.lcd_data(0x03);
-        self.lcd_data(0x0E);
-        self.lcd_data(0x09);
-        self.lcd_data(0x00);
-
-        self.lcd_command(0xE1); // Set Gamma
-        self.lcd_data(0x00);
-        self.lcd_data(0x0E);
-        self.lcd_data(0x14);
-        self.lcd_data(0x03);
-        self.lcd_data(0x11);
-        self.lcd_data(0x07);
-        self.lcd_data(0x31);
-        self.lcd_data(0xC1);
-        self.lcd_data(0x48);
-        self.lcd_data(0x08);
-        self.lcd_data(0x0F);
-        self.lcd_data(0x0C);
-        self.lcd_data(0x31);
-        self.lcd_data(0x36);
-        self.lcd_data(0x0F);
-
-        self.lcd_command(0x11); // Exit Sleep
+        self.lcd_command(0x21); // Inversion On
+        self.lcd_command(0x11); // Sleep Out
         sleep(Duration::from_millis(120));
-        self.lcd_command(0x29); // Display on
-
+        self.lcd_command(0x29); // Display ON
         self.bl_pin.set_high();
     }
 
