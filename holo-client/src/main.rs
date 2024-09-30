@@ -30,10 +30,7 @@ async fn main() {
         } else {
             println!("No images, trying again later")
         }
-
-
-
-        thread::sleep(Duration::from_secs(10 * 60))
+        thread::sleep(Duration::from_secs(/*10 **/60))
     }
 }
 
