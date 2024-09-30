@@ -1,4 +1,4 @@
-use std::{error::Error, thread::sleep, time::Duration};
+use std::{error::Error, path::Path, thread::sleep, time::Duration};
 
 use image::{imageops::FilterType, ImageBuffer, Rgb};
 use rppal::{
@@ -39,15 +39,11 @@ impl St7789Lcd {
         })
     }
 
-    pub fn draw_image(&mut self, img_str: &str) -> Result<(), Box<dyn Error>> {
+    pub fn draw_image<P: AsRef<Path>>(&mut self, img_str: P) -> Result<(), Box<dyn Error>> {
         let img = image::open(img_str)?;
         let img = img.resize(self.width as u32, self.height as u32, FilterType::Nearest);
 
         self.send_image(&img.to_rgb8())
-    }
-
-    fn osidf() {
-        ImageBuffer::from_fn(width, height, f);
     }
 
     pub fn send_image(
