@@ -1,3 +1,5 @@
+//! Byte instructions for writing an image to the LCD
+
 use std::{error::Error, path::Path, thread::sleep, time::Duration};
 
 use image::{imageops::FilterType, ImageBuffer, Rgb};
@@ -6,17 +8,25 @@ use rppal::{
     spi::Spi,
 };
 
+/// Control for an St7789 LCD screen
 pub struct St7789Lcd {
+    /// The power pin
     dc_pin: OutputPin,
+    /// The reset pin
     rst_pin: OutputPin,
+    /// Backlight pin
     bl_pin: OutputPin,
+    /// SPI interface
     spi: Spi,
 
+    /// Lcd width
     width: usize,
+    /// Lcd height
     height: usize,
 }
 
 impl St7789Lcd {
+    /// Creates a new lcd instance that owns the SPI and OutputPins
     pub fn new(
         dc: u8,
         rst: u8,
@@ -39,6 +49,7 @@ impl St7789Lcd {
         })
     }
 
+    /// Draws an image from a path to the lcd
     pub fn draw_image<P: AsRef<Path>>(&mut self, img_str: P) -> Result<(), Box<dyn Error>> {
         let img = image::open(img_str)?;
         let img = img.resize(self.width as u32, self.height as u32, FilterType::Nearest);
@@ -46,6 +57,7 @@ impl St7789Lcd {
         self.send_image(&img.to_rgb8())
     }
 
+    /// Sends an image buffer to the lcd
     pub fn send_image(
         &mut self,
         img: &ImageBuffer<Rgb<u8>, Vec<u8>>,
@@ -77,6 +89,7 @@ impl St7789Lcd {
         Ok(())
     }
 
+    /// Initializes the LCD
     pub fn init(&mut self) {
         self.rst_pin.set_low();
         sleep(Duration::from_millis(100));
