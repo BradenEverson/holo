@@ -1,4 +1,10 @@
-use std::{ffi::OsStr, fs, path::{Path, PathBuf}, thread, time::Duration};
+use std::{
+    ffi::OsStr,
+    fs,
+    path::{Path, PathBuf},
+    thread,
+    time::Duration,
+};
 
 use holo_client::lcd::St7789Lcd;
 use rand::{seq::SliceRandom, thread_rng, RngCore};
@@ -11,17 +17,18 @@ async fn main() {
         let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
             .expect("Failed to initialize SPI");
 
-        let mut lcd = St7789Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
+        let mut lcd =
+            St7789Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
         lcd.init();
     }
 
     let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
         .expect("Failed to initialize SPI");
 
-    let mut lcd = St7789Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
+    let mut lcd =
+        St7789Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
     lcd.init();
 
-    
     let mut rng = thread_rng();
     loop {
         if let Some(img) = choose_random_file("img/", &mut rng) {
@@ -30,7 +37,7 @@ async fn main() {
         } else {
             println!("No images, trying again later")
         }
-        thread::sleep(Duration::from_secs(/*10 **/60))
+        thread::sleep(Duration::from_secs(/*10 **/ 60))
     }
 }
 
