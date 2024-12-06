@@ -1,8 +1,8 @@
 //! Byte instructions for writing an image to the LCD
 
-use std::{error::Error, path::Path, thread::sleep, time::Duration};
+use std::{error::Error, thread::sleep, time::Duration};
 
-use image::{imageops::FilterType, ImageBuffer, Rgb};
+use image::{imageops::FilterType, DynamicImage, ImageBuffer, Rgb};
 use rppal::{
     gpio::{Gpio, OutputPin},
     spi::Spi,
@@ -50,8 +50,7 @@ impl St7789Lcd {
     }
 
     /// Draws an image from a path to the lcd
-    pub fn draw_image<P: AsRef<Path>>(&mut self, img_str: P) -> Result<(), Box<dyn Error>> {
-        let img = image::open(img_str)?;
+    pub fn draw_image(&mut self, img: DynamicImage) -> Result<(), Box<dyn Error>> {
         let img = img.resize(self.width as u32, self.height as u32, FilterType::Nearest);
 
         self.send_image(&img.to_rgb8())
