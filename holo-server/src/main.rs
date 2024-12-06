@@ -1,6 +1,8 @@
 //! The cloud server side of this project - holds a collection of images that can be uploaded or
 //! downloaded upon request
 
+use std::env;
+
 use holo_server::service::ServerService;
 use hyper::server::conn::http1;
 use hyper_util::rt::TokioIo;
@@ -8,7 +10,9 @@ use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() {
-    let listener = TcpListener::bind("0.0.0.0:0").await.unwrap();
+    let port = env::var("PORT").unwrap_or_else(|_| "1221".to_string());
+    let addr = format!("0.0.0.0:{}", port);
+    let listener = TcpListener::bind(&addr).await.unwrap();
     println!(
         "Listening on http://localhost:{}",
         listener.local_addr().unwrap().port()
