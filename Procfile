@@ -1,1 +1,1 @@
-web: cargo run --release --package holo-server
+web: ./target/release/holo-server
