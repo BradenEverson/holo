@@ -14,9 +14,14 @@ pub const IMG_SOURCE: &str = "https://holoserve-fe9fc0f69a47.herokuapp.com/img";
 async fn main() {
     // Setup
     for _ in 0..15 {
-        let _ = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
+        let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
             .expect("Failed to initialize SPI");
+
+        let mut lcd =
+            St7789Lcd::new(25, 24, 18, spi, 240, 240).expect("Failed to initialize LCD Screen");
+        lcd.init();
     }
+
     let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
         .expect("Failed to initialize SPI");
 
