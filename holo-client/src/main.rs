@@ -13,8 +13,8 @@ pub const IMG_SOURCE: &str = "https://holoserve-fe9fc0f69a47.herokuapp.com/img";
 #[tokio::main]
 async fn main() {
     // Setup
-    for _ in 0..5 {
-        let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
+    for _ in 0..15 {
+        let _ = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
             .expect("Failed to initialize SPI");
     }
     let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 24_000_000, Mode::Mode3)
