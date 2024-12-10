@@ -45,7 +45,7 @@ async fn main() {
             }
         }
 
-        thread::sleep(Duration::from_secs(60)); // Sleep for 1 minute
+        thread::sleep(Duration::from_secs(5 * 60)); // Sleep for 5 minutes
     }
 }
 
